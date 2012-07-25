@@ -21,7 +21,7 @@ Create the output table with appropriate column families:
 
 Create a reducer that will output in the following format (tab-delimited):
 
-	put	<rowid>	<cf>:<qualifier>	<value>
+	put	<rowid>	<cf>	<qualifier>	<value>
 
 Run your map reduce job with the OutputFormat set to: org.childtv.hadoop.hbase.mapred.ListTableOutputFormat
 
@@ -29,9 +29,9 @@ As a test, create a file called source_input/test.tab and include the expected r
 
 An example of the reducer output might be (tab-delimited): 
 
-	put	r1	cf1:test	Value1
-	put	r1	cf2:test	Value2
-	put	r2	cf1:test	Value3 
+	put	r1	cf1	test	Value1
+	put	r1	cf2	test	Value2
+	put	r2	cf1	test	Value3 
 
 Then invoke the hadoop streaming API with the outputformat set to  org.childtv.hadoop.hbase.mapred.ListTableOutputFormat and the job configuration parameter reduce.output.table=outputtable 
 
