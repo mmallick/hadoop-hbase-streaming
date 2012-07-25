@@ -25,7 +25,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.regionserver.DeleteTracker.DeleteCompare;
 import org.apache.hadoop.io.Writable;
 
-import com.sun.corba.se.impl.ior.WireObjectKeyTemplate;
+//import com.sun.corba.se.impl.ior.WireObjectKeyTemplate;
 
 public class ListTableOutputFormat extends TextTableOutputFormat {
 
@@ -68,20 +68,20 @@ public class ListTableOutputFormat extends TextTableOutputFormat {
     private void put(Put bu, String[] args) {
     	// TODO - Fix column qualifier
     
-        if (args.length > 3)
-        	bu.add(decodeColumnName(args[1]), getTimestampString(args[3]),  decodeValue(args[2]));
+        if (args.length > 4)
+        	bu.add(decodeColumnName(args[1]), decodeColumnName(args[2]), getTimestampString(args[4]),  decodeValue(args[3]));
         else
         	// Verify this is default behavior
-        	bu.add(decodeColumnName(args[1]), new Date().getTime(),  decodeValue(args[2]));
+        	bu.add(decodeColumnName(args[1]), decodeColumnName(args[2]), new Date().getTime(),  decodeValue(args[3]));
     }
 
     private void delete(Delete bu, String[] args) {
     	//TODO - check column qualifier
         
-        if (args.length > 2) 
-        	bu.deleteColumns(decodeColumnName(args[1]), getTimestampString(args[2]));	
+        if (args.length > 3) 
+        	bu.deleteColumns(decodeColumnName(args[1]), decodeColumnName(args[2]), getTimestampString(args[3]));	
         else 
-        	bu.deleteColumn(decodeColumnName(args[1]));
+        	bu.deleteColumn(decodeColumnName(args[1]), decodeColumnName(args[2]));
         
     }
 

@@ -4,7 +4,7 @@ TEST_BASE_DIR=$(dirname $0)
 TABLE_NAME="test_table_$$"
 TMP_DIR="tmp_$$"
 TEST_OUTPUT_DIR="$TMP_DIR/test_output"
-STREAMING_JAR=/usr/lib/hadoop-0.20/contrib/streaming/hadoop-streaming-0.20.2-cdh3u3.jar
+STREAMING_JAR=/usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.0.1.jar
 
 function create_tmp_dir(){
 	mkdir $TMP_DIR
@@ -23,20 +23,23 @@ function load_sample_data(){
 	echo "Loading Sample Data"
 
 	hadoop jar $STREAMING_JAR \
+		-fs file:/// -jt local \
 		-input input_files -output $TMP_DIR/dummy_output \
 		-mapper /bin/cat \
 		-outputformat org.childtv.hadoop.hbase.mapred.ListTableOutputFormat \
 		-jobconf reduce.output.table=$TABLE_NAME
 }
 
+
 function extract_json(){
 	echo "Extracting sample using JSONTableInputFormat"
 
 	hadoop jar $STREAMING_JAR \
+		-fs file:/// -jt local \
 		-input dummy_input \
 		-inputformat org.childtv.hadoop.hbase.mapred.JSONTableInputFormat \
 		-mapper /bin/cat -jobconf map.input.table=$TABLE_NAME \
-		-jobconf "map.input.columns=cf1 cf2" -output $TEST_OUTPUT_DIR
+		-jobconf map.input.columns="cf1 cf2" -output $TEST_OUTPUT_DIR
 
 }
 

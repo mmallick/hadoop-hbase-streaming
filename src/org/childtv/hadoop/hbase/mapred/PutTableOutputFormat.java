@@ -16,6 +16,8 @@
 
 package org.childtv.hadoop.hbase.mapred;
 
+import java.util.Date;
+
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.io.Writable;
@@ -37,19 +39,19 @@ public class PutTableOutputFormat extends TextTableOutputFormat {
 
     public Writable[] createBatchUpdates(String key, String content) {
         String[] values = content.split(separator, 3);
-        if (values.length < 2)
+        if (values.length < 3)
             throw new RuntimeException("PutTableOutputFormat: invalid reduce output: " + content);
 
         
         Put bu = new Put(decodeValue(key));
         
-        if (values.length >= 3) {
+        if (values.length >= 4) {
         	try {
-        	bu.add(decodeColumnName(values[0]), Long.parseLong(values[2]),  decodeValue(values[1]));
+        	bu.add(decodeColumnName(values[0]), decodeColumnName(values[1]), Long.parseLong(values[3]),  decodeValue(values[2]));
            
             } catch(NumberFormatException e) {}
         } else {
-        	bu.add(decodeColumnName(values[0]), Long.parseLong(values[2]),  decodeValue(values[1]));
+        	bu.add(decodeColumnName(values[0]), decodeColumnName(values[1]), new Date().getTime(),  decodeValue(values[2]));
         }
         
         return new Writable[] { bu };

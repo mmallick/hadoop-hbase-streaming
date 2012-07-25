@@ -6,14 +6,15 @@
 
   <path id="classpath">
     <pathelement location="classes"/>
-    <pathelement location="${env.HADOOP_HOME}/hadoop-0.17.2.1-core.jar"/>
+    <pathelement location="${env.HADOOP_MAPREDUCE_HOME}/hadoop-2.0.0-mr1-cdh4.0.1-core.jar"/>
+    <pathelement location="${env.HADOOP_HOME}/hadoop-common.jar"/>
     <pathelement location="${env.HADOOP_HOME}/conf"/>
-    <pathelement location="${env.HBASE_HOME}/hbase-0.2.1.jar"/>
+    <pathelement location="${env.HBASE_HOME}/hbase-0.92.1-cdh4.0.1-security.jar"/>
     <pathelement location="${env.HBASE_HOME}/conf"/>
     <fileset dir="${env.HADOOP_HOME}/lib">
       <include name="**/*.jar" />
     </fileset>
-    <pathelement location="${env.HADOOP_HOME}/contrib/streaming/hadoop-0.17.2.1-streaming.jar"/>
+    <pathelement location="${env.HADOOP_HOME}/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.0.1.jar"/>
   </path>
 
   <target name="init">
